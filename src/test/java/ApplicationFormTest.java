@@ -16,6 +16,7 @@ public class ApplicationFormTest {
     static void setUpAll() {
         WebDriverManager.chromedriver().setup();
     }
+
     @BeforeEach
     void setUp() {
         ChromeOptions options = new ChromeOptions();
@@ -25,20 +26,22 @@ public class ApplicationFormTest {
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
     }
+
     @AfterEach
     void tearDown() {
         driver.quit();
         driver = null;
     }
+
     @Test
     void shouldPositiveTest() {
         driver.get("http://localhost:9999");
-        driver.findElements(By.tagName("input")).get(0).sendKeys("Сергеев Сергей");
-        driver.findElements(By.tagName("input")).get(1).sendKeys("+79209998877");
-        driver.findElement(By.className("checkbox__box")).click();
-        driver.findElement(By.className("button__text")).click();
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Сергеев-Иванов Сергей");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79209998877");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.cssSelector("button")).click();
         String expected = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
-        String actual = driver.findElement(By.tagName("p")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='order-success']")).getText().trim();
         assertEquals(expected, actual);
     }
 }
