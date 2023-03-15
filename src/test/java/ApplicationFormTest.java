@@ -32,7 +32,7 @@ public class ApplicationFormTest {
     }
     @Test
     void shouldPositiveTest() {
-        driver.get(" http://localhost:9999");
+        driver.get("http://localhost:9999");
         driver.findElements(By.tagName("input")).get(0).sendKeys("Сергеев Сергей");
         driver.findElements(By.tagName("input")).get(1).sendKeys("+79209998877");
         driver.findElement(By.className("checkbox__box")).click();
