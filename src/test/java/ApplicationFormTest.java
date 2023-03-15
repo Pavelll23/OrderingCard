@@ -1,3 +1,4 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,15 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ApplicationFormTest {
 
-        private WebDriver driver;
+    private WebDriver driver;
 
-        @BeforeAll
-        static void setUpAll() {
-        System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
+    @BeforeAll
+    static void setUpAll() {
+        WebDriverManager.chromedriver().setup();
     }
-
-        @BeforeEach
-        void setUp() {
+    @BeforeEach
+    void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         options.addArguments("--no-sandbox");
@@ -25,14 +25,13 @@ public class ApplicationFormTest {
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
     }
-
-        @AfterEach
-        void tearDown() {
+    @AfterEach
+    void tearDown() {
         driver.quit();
         driver = null;
     }
     @Test
-    void shouldPositiveTest(){
+    void shouldPositiveTest() {
         driver.get(" http://localhost:9999");
         driver.findElements(By.tagName("input")).get(0).sendKeys("Сергеев Сергей");
         driver.findElements(By.tagName("input")).get(1).sendKeys("+79209998877");
@@ -41,5 +40,5 @@ public class ApplicationFormTest {
         String expected = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
         String actual = driver.findElement(By.tagName("p")).getText().trim();
         assertEquals(expected, actual);
-        }
+    }
 }
